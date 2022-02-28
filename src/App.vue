@@ -1,15 +1,14 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <MemoList :posts="[{id:1,text:'テストメモ1'},{id:2,text:'テストメモ2'},{id:3,text:'テストメモ3'}]"/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MemoList from './components/MemoList.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    MemoList
   }
 }
 </script>
@@ -17,10 +16,5 @@ export default {
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
