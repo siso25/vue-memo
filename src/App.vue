@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <div>
-      <MemoList :posts="posts" @new-button-click="showNewMemoForm"/>
+      <MemoList :posts="posts" @new-button-click="showNewForm" @post-title-click="showEditForm"/>
     </div>
     <div v-if="formShow">
-      <MemoForm :button-name="buttonName" :param-post="post" @memo-form-save="save"/>
+      <MemoForm :param-post="post" @memo-save-click="savePost" @memo-delete-click="deletePost"/>
     </div>
   </div>
 </template>
@@ -14,14 +14,14 @@ import MemoList from './components/MemoList.vue'
 import MemoForm from './components/MemoForm.vue'
 
 const STORAGE_KEY = 'vuejs-memo-app'
-
-const fetchStorage = () => {
-  const posts = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
-  return posts
-}
-
-const saveStorage = (posts) => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(posts))
+const storage = {
+  fetch: () => {
+    const posts = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+    return posts
+  },
+  save: (posts) => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(posts))
+  }
 }
 
 export default {
@@ -34,19 +34,22 @@ export default {
     return {
       posts: [],
       post: {},
-      formShow: false,
-      buttonName: ''
+      formShow: false
     }
   },
   created () {
-    this.posts = fetchStorage()
+    this.posts = storage.fetch()
   },
   methods: {
-    showNewMemoForm() {
-      this.buttonName = '新規作成'
+    showNewForm () {
+      this.post = {}
       this.formShow = true
     },
-    save(post) {
+    showEditForm (post) {
+      this.post = post
+      this.formShow = true
+    },
+    savePost (post) {
       if (!post.id) {
         post.id = this.createId()
         this.posts.push(post)
@@ -55,15 +58,25 @@ export default {
         this.posts.splice(targetIndex, 1, post)
       }
 
-      saveStorage(this.posts)
+      storage.save(this.posts)
       this.formShow = false
     },
-    createId() {
+    createId () {
       if (this.posts.length === 0) {
         return 1
       }
       const maxId = Math.max(...this.posts.map(post => post.id))
       return maxId + 1
+    },
+    deletePost (post) {
+      if (!post.id) {
+        this.formShow = false
+        return
+      }
+
+      this.posts = this.posts.filter(item => item.id !== post.id)
+      storage.save(this.posts)
+      this.formShow = false
     }
   }
 }

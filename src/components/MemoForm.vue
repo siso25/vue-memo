@@ -1,25 +1,30 @@
 <template>
   <textarea v-model="post.body"></textarea>
-  <p>{{ post.body }}</p>
-  <button @click="saveBody">{{ buttonName }}</button>
+  <button @click="savePost">編集</button>
+  <button @click="deletePost">削除</button>
 </template>
 
 <script>
 export default {
   props: {
-    paramPost: Object,
-    buttonName: String
+    paramPost: Object
   },
-  emits: ['memo-form-save'],
+  emits: [
+    'memo-save-click',
+    'memo-delete-click'
+  ],
   data () {
     return {
       post: this.paramPost
     }
   },
   methods: {
-    saveBody () {
+    savePost () {
       this.post.title = this.post.body.split('\n')[0]
-      this.$emit('memo-form-save', this.post)
+      this.$emit('memo-save-click', this.post)
+    },
+    deletePost () {
+      this.$emit('memo-delete-click', this.post)
     }
   }
 }
