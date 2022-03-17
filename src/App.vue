@@ -1,10 +1,13 @@
 <template>
-  <div id="app">
-    <div>
-      <MemoList :posts="posts" @new-button-click="showNewForm" @post-title-click="showEditForm"/>
-    </div>
-    <div v-if="formShow">
-      <MemoForm :param-post="post" @memo-save-click="savePost" @memo-delete-click="deletePost"/>
+  <div class="container pt-5">
+    <h1 class="title">Memo App</h1>
+    <div class="columns mt-5">
+      <div class="column">
+        <MemoList :posts="posts" @new-button-click="showNewForm" @post-title-click="showEditForm"/>
+      </div>
+      <div class="column" v-if="formShow">
+        <MemoForm :param-post="post" @memo-save-click="savePost" @memo-delete-click="deletePost"/>
+      </div>
     </div>
   </div>
 </template>
