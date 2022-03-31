@@ -1,7 +1,7 @@
 <template>
   <textarea class="textarea" v-model="post.body"></textarea>
   <div class="mt-3">
-    <button class="button" @click="savePost">編集</button>
+    <button class="button" @click="savePost">保存</button>
     <button class="button ml-3" @click="deletePost">削除</button>
   </div>
 </template>
