@@ -1,4 +1,4 @@
-# vue-memo-app
+# vue-memo
 
 ## Project setup
 ```
